@@ -1,0 +1,85 @@
+name: Update DXCC Data
+
+permissions:
+  contents: write
+
+on:
+  
+#  schedule:
+#  - cron: '0 2 * * *' # Execute daily at UTC 02:00 AM
+  workflow_dispatch: # Support manual trigger
+    inputs:
+      full_update:
+        description: 'Full Update'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Checkout stats branch for data
+        id: sync_data
+        uses: actions/checkout@v4
+        with:
+          ref: stats
+          path: main/local-data
+        continue-on-error: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        working-directory: ./main
+        run: npm ci
+
+      - name: Run DXCC update
+        working-directory: ./main
+        run: |
+          if [ "${{ github.event.inputs.full_update }}" = "true" ] || [ "${{ steps.sync_data.outcome }}" != "success" ]; then
+            echo "Performing full update..."
+            node ./bin/update-stats --full
+          else
+            echo "Performing incremental update..."
+            node ./bin/update-stats
+          fi
+        env:
+          LOTW_USERNAME: ${{ secrets.LOTW_USERNAME }}
+          LOTW_PASSWORD: ${{ secrets.LOTW_PASSWORD }}
+
+      - name: Deploy data to stats branch
+        if: success()
+        run: |
+          cd main/local-data
+          if [ ! "$(find . -maxdepth 1 -type f \( -name '*.json' -o -name '*.adif' -o -name '*.adi' -o -name '*.txt' \) 2>/dev/null)" ]; then
+            echo "No data files to deploy."
+            exit 0
+          fi
+          rm -rf .git
+          git init
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git checkout -b stats
+          echo "# DXCC Statistics Data" > README.md
+          echo "" >> README.md
+          echo "Last updated: $(date -u)" >> README.md
+          echo "" >> README.md
+          echo "Files in this branch:" >> README.md
+          find . -maxdepth 1 -type f ! -name 'README.md' ! -name '.git*' | sed 's|^./|- |' >> README.md 2>/dev/null || true
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "Update DXCC data - $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+            git push --force origin stats
+            echo "Data files successfully deployed to stats branch."
+          else
+            echo "No changes to commit."
+          fi

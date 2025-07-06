@@ -1,0 +1,47 @@
+# 开发文件
+.env
+.env.*
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 测试文件
+__tests__/
+*.test.js
+*.spec.js
+coverage/
+
+# 构建和临时文件
+.tmp/
+output/
+build/
+dist/
+
+# IDE和编辑器
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# GitHub相关
+.github/
+
+# 文档和示例
+examples/
+docs/
+*.md
+!README.md
+
+# 配置文件示例
+*.config.example.js
+lotw-dxcc-stats.config.js

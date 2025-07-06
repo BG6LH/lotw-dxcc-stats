@@ -1,0 +1,27 @@
+# 依赖和系统文件
+node_modules/
+.DS_Store
+.vscode/
+.env
+.env.local
+.env.*.local
+
+# 数据文件（开源版本不包含任何数据）
+local-data/
+output/
+*.adif
+*.adi
+*.json
+!schemas/*.json
+!package*.json
+!*config*.json
+
+# 临时文件
+.tmp/
+.cache/
+logs/
+
+# 个人配置和提示文件
+.prompt/
+my-*
+personal-*
