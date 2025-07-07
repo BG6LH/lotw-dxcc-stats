@@ -67,7 +67,7 @@
   },
   "required": [
     "total_qso",
-    "total_qsl", 
+    "total_qsl",
     "dxcc_confirmed",
     "app_lotw_lastQsoRx",
     "app_lotw_lastQsl",

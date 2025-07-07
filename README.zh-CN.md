@@ -28,7 +28,6 @@
 
 我还计划把它发布成 npm 包，这样你就可以在你的项目里，用 npm 安装和使用它。
 
-
 ## 本地安装
 
 ```bash
@@ -43,22 +42,22 @@ npm install lotw-dxcc-stats
 
 ```javascript
 export default {
-    lotwUrl: 'https://lotw.arrl.org/lotwuser/lotwreport.adi', // LoTW RESTful 查询接口，不用改变
-    localDataPath: './local-data', // 本地运行时，统计数据输出的目录
-    lotwDataFile: 'lotwDxcc.json', // JSON统计数据名称
-    qsoDataFile: 'lotwQso.adif', // ADIF统计数据名称
-    qsoDataFileBackup: true,  // true，更新时备份ADIF文件；false，不备份
-    qsoBeginDate: '2018-01-01',
-    queryTimeout: 60000,
-    timestampCheckInterval: 0,
-    
-	// 对LoTW请求的超时重试配置
-	retryConfig: {
-		maxRetries: 3, // 最大重试次数
-		baseDelay: 5000, // 基础延迟时间（毫秒）
-		retryOn503: true, // 是否对LoTW的503错误重试
-		retryOnTimeout: true // 是否对超时错误重试
-	}
+  lotwUrl: "https://lotw.arrl.org/lotwuser/lotwreport.adi", // LoTW RESTful 查询接口，不用改变
+  localDataPath: "./local-data", // 本地运行时，统计数据输出的目录
+  lotwDataFile: "lotwDxcc.json", // JSON统计数据名称
+  qsoDataFile: "lotwQso.adif", // ADIF统计数据名称
+  qsoDataFileBackup: true, // true，更新时备份ADIF文件；false，不备份
+  qsoBeginDate: "2018-01-01",
+  queryTimeout: 60000,
+  timestampCheckInterval: 0,
+
+  // 对LoTW请求的超时重试配置
+  retryConfig: {
+    maxRetries: 3, // 最大重试次数
+    baseDelay: 5000, // 基础延迟时间（毫秒）
+    retryOn503: true, // 是否对LoTW的503错误重试
+    retryOnTimeout: true, // 是否对超时错误重试
+  },
 };
 ```
 
@@ -70,7 +69,9 @@ export default {
 LOTW_USERNAME=your_lotw_username
 LOTW_PASSWORD=your_lotw_password
 ```
+
 注意：
+
 - 默认查询和 LOTW_USERNAME 账户绑定的所有QSO数据。
 - 记得把 `.env` 文件添加到 `.gitignore` 中，避免把你的 LoTW 用户名、密码上传到公开仓库。
 
@@ -86,14 +87,15 @@ npm run update-dxcc
 npm run update-dxcc --full
 
 ```
+
 ### 统计结果
 
 更新完成后，根据在配置文件指定的目录、文件名，生成三个主要数据：
 
 ```bash
 # 例如：在配置文件 lotw-dxcc-stats.config.js 中指定了数据目录
-# localDataPath: './local-data', 
-# lotwDataFile: 'lotwDxcc.json', 
+# localDataPath: './local-data',
+# lotwDataFile: 'lotwDxcc.json',
 # qsoDataFile: 'lotwQso.adif',
 local-data/
 ├── lotwDxcc.json    # 最新DXCC通联统计
@@ -121,7 +123,6 @@ local-data/
    - 手动触发更新
    - 自动部署到 GitHub Pages
 
-
 ### 🔧 GitHub Actions 配置
 
 项目包含预配置的 GitHub Actions 工作流脚本。
@@ -145,7 +146,6 @@ local-data/
 ```yaml
 #  schedule:
 #  - cron: '0 2 * * *' # Execute daily at UTC 02:00 AM
-
 ```
 
 ### 统计结果
@@ -196,19 +196,21 @@ README.md         # 说明文件
 - `app_lotw_lastQsl`: 最后接收 QSL 的时间戳
 - `dxcc_stats`: 各 DXCC 实体的详细统计
 
-
 #### 生成 Shields.io 徽章
 
 结合 Shields.io 的服务，你可以用本项目生成的JSON文件，渲染出以下格式的徽章。JSON文件的具体引用路径，需要根据你的部署方案调整。
 
 ```markdown
 <!-- DXCC 确认数徽章 -->
+
 ![DXCC Confirmed](https://img.shields.io/badge/dynamic/json?label=DXCC%20Confirmed&url=https://bg6lh.github.io/js/lotwDxcc.json&query=dxcc_confirmed)
 
 <!-- QSO 总数徽章 -->
+
 ![LoTW QSOs](https://img.shields.io/badge/dynamic/json?label=LoTW%20QSO&url=https://bg6lh.github.io/js/lotwDxcc.json&query=total_qso)
 
 <!-- QSL 确认数徽章 -->
+
 ![LoTW QSLs](https://img.shields.io/badge/dynamic/json?label=LoTW%20QSL&url=https://bg6lh.github.io/js/lotwDxcc.json&query=total_qsl)
 ```
 
@@ -218,12 +220,9 @@ README.md         # 说明文件
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/T6T01D9CDW)
 
-
 ## 📄 许可证
 
 MIT License - 详见 [LICENSE](LICENSE) 文件
-
-
 
 ## 🔗 相关链接
 

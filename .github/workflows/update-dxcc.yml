@@ -4,13 +4,12 @@ permissions:
   contents: write
 
 on:
-  
-#  schedule:
-#  - cron: '0 2 * * *' # Execute daily at UTC 02:00 AM
+  #  schedule:
+  #  - cron: '0 2 * * *' # Execute daily at UTC 02:00 AM
   workflow_dispatch: # Support manual trigger
     inputs:
       full_update:
-        description: 'Full Update'
+        description: "Full Update"
         required: false
         default: false
         type: boolean
@@ -35,7 +34,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         working-directory: ./main

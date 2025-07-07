@@ -1,60 +1,65 @@
 #!/usr/bin/env node
 
-import { updateDXCCData } from '../lib/update-strategy.js';
-import { createConfigContext } from '../index.js';
-import { program } from 'commander';
-import dotenv from 'dotenv';
+import { updateDXCCData } from "../lib/update-strategy.js";
+import { createConfigContext } from "../index.js";
+import { program } from "commander";
+import dotenv from "dotenv";
 
 // 加载环境变量
 dotenv.config();
 
 program
-  .name('update-stats')
-  .description('Update DXCC data from LoTW')
-  .option('-u, --username <username>', 'LoTW username')
-  .option('-p, --password <password>', 'LoTW password')
-  .option('-f, --full', 'Force full update')
-  .option('--qso-begin-date <date>', 'QSO begin date (YYYY-MM-DD)')
+  .name("update-stats")
+  .description("Update DXCC data from LoTW")
+  .option("-u, --username <username>", "LoTW username")
+  .option("-p, --password <password>", "LoTW password")
+  .option("-f, --full", "Force full update")
+  .option("--qso-begin-date <date>", "QSO begin date (YYYY-MM-DD)")
   .action(async (options) => {
     try {
-      console.log('[LoTW-DXCC] Starting DXCC data update...');
-      
+      console.log("[LoTW-DXCC] Starting DXCC data update...");
+
       const username = options.username || process.env.LOTW_USERNAME;
       const password = options.password || process.env.LOTW_PASSWORD;
-      
+
       if (!username || !password) {
-        console.error('[LoTW-DXCC] Error: LoTW username and password are required');
-        console.error('[LoTW-DXCC] Set them via --username/--password options or LOTW_USERNAME/LOTW_PASSWORD environment variables');
+        console.error(
+          "[LoTW-DXCC] Error: LoTW username and password are required",
+        );
+        console.error(
+          "[LoTW-DXCC] Set them via --username/--password options or LOTW_USERNAME/LOTW_PASSWORD environment variables",
+        );
         process.exit(1);
       }
-      
+
       // 创建配置上下文 - 使用工厂函数策略
       const configOverrides = {};
-      if (options.qsoBeginDate) configOverrides.qsoBeginDate = options.qsoBeginDate;
-      
+      if (options.qsoBeginDate)
+        configOverrides.qsoBeginDate = options.qsoBeginDate;
+
       const configContext = await createConfigContext(configOverrides);
-      
+
       // 准备更新选项
       const updateOptions = {
-        full: options.full  // 改为 full
+        full: options.full, // 改为 full
       };
-      
+
       // 调用更新函数 - 使用新的参数格式
       const result = await updateDXCCData({
         username,
         password,
         configContext,
-        options: updateOptions
+        options: updateOptions,
       });
-      
-      console.log('[LoTW-DXCC] DXCC data update completed successfully!');
-      
+
+      console.log("[LoTW-DXCC] DXCC data update completed successfully!");
+
       if (result) {
         // 显示增量更新统计
         if (result.incrementalStats) {
           const { newQSOs, newQSLs, newDXCCs } = result.incrementalStats;
-          console.log('\n=== This Incremental Update ===');
-          
+          console.log("\n=== This Incremental Update ===");
+
           // 显示QSO变化
           if (newQSOs > 0) {
             console.log(`New QSOs: +${newQSOs}`);
@@ -63,7 +68,7 @@ program
           } else {
             console.log(`New QSOs: 0`);
           }
-          
+
           // 显示QSL变化
           if (newQSLs > 0) {
             console.log(`New QSLs: +${newQSLs}`);
@@ -72,7 +77,7 @@ program
           } else {
             console.log(`New QSLs: 0`);
           }
-          
+
           // 显示DXCC变化
           if (newDXCCs > 0) {
             console.log(`New DXCCs: +${newDXCCs}`);
@@ -82,18 +87,17 @@ program
             console.log(`New DXCCs: 0`);
           }
         }
-        
-        console.log('');
-        
+
+        console.log("");
+
         // 显示总计统计
-        console.log('=== Total Statistics ===');
+        console.log("=== Total Statistics ===");
         console.log(`Total QSOs: ${result.total_qso || 0}`);
         console.log(`Total QSLs: ${result.total_qsl || 0}`);
         console.log(`Confirmed DXCCs: ${result.dxcc_confirmed || 0}`);
       }
-      
     } catch (error) {
-      console.error('Error updating DXCC data:', error.message);
+      console.error("Error updating DXCC data:", error.message);
       process.exit(1);
     }
   });
