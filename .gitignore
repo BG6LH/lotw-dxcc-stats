@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.local
 .env.*.local
+.trae/**/*
 
 # 数据文件（开源版本不包含任何数据）
 local-data/
