@@ -21,7 +21,6 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v4
         with:
-          ref: dev
           path: main
 
       - name: Checkout stats branch for data
