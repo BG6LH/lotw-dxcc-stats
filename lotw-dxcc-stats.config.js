@@ -7,7 +7,7 @@ export default {
   qsoDataFileBackup: false,
   qsoBeginDate: "2018-01-01",
   queryTimeout: 60000,
-  timestampCheckInterval: 0,
+  queryInterval: 0, // 改为 1 表示1小时间隔
 
   // 新增超时重试配置
   retryConfig: {

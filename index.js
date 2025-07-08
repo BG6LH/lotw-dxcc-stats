@@ -97,13 +97,13 @@ export async function createConfigContext(options = {}) {
 
     // 新增：检查更新频率限制
     shouldSkipUpdate: (lastUpdateTime) => {
-      if (!lastUpdateTime || mergedConfig.timestampCheckInterval <= 0) {
+      if (!lastUpdateTime || mergedConfig.queryInterval <= 0) {
         return false; // 没有时间限制或没有上次更新时间
       }
       const now = new Date();
       const lastUpdate = new Date(lastUpdateTime);
       const hoursDiff = (now - lastUpdate) / (1000 * 60 * 60);
-      return hoursDiff < mergedConfig.timestampCheckInterval;
+      return hoursDiff < mergedConfig.queryInterval;
     },
   };
 }
@@ -140,3 +140,5 @@ export { updateDXCCData as updateLoTWData } from "./lib/update-strategy.js";
 
 // // Default export display plugin
 // export { default } from './eleventy-dxcc-widgets.js';
+// shouldSkipUpdate 方法已经正确使用 lastUpdateTime 参数
+// 只需确保调用时传入 last_updated 而非 last_updated_timestamp

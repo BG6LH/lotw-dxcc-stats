@@ -34,11 +34,6 @@
       "format": "date-time",
       "description": "ISO timestamp when data was last updated"
     },
-    "last_updated_timestamp": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Unix timestamp of last timestamp check"
-    },
     "dxcc_stats": {
       "type": "object",
       "description": "Statistics for each DXCC entity",
@@ -72,7 +67,6 @@
     "app_lotw_lastQsoRx",
     "app_lotw_lastQsl",
     "last_updated",
-    "last_updated_timestamp",
     "dxcc_stats"
   ],
   "additionalProperties": false

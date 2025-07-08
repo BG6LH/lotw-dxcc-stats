@@ -47,9 +47,9 @@ export default {
   lotwDataFile: "lotwDxcc.json", // JSON统计数据名称
   qsoDataFile: "lotwQso.adif", // ADIF统计数据名称
   qsoDataFileBackup: true, // true，更新时备份ADIF文件；false，不备份
-  qsoBeginDate: "2018-01-01",
-  queryTimeout: 60000,
-  timestampCheckInterval: 0,
+  qsoBeginDate: "2018-01-01", // 所有通联记录的起始日期
+  queryTimeout: 60000, // 查询LoTW的超时设置
+  queryInterval: 0, // 查询LoTW的间隔小时，0表示不设置间隔
 
   // 对LoTW请求的超时重试配置
   retryConfig: {
@@ -178,7 +178,6 @@ README.md         # 说明文件
   "app_lotw_lastQsoRx": "2024-01-15 14:30:25",
   "app_lotw_lastQsl": "2024-01-15 12:15:30",
   "last_updated": "2024-01-15T14:30:25.123Z",
-  "last_updated_timestamp": 1705327825123,
   "dxcc_stats": {
     "1": { "qso": 45, "qsl": 23 },
     "6": { "qso": 12, "qsl": 8 },
@@ -192,8 +191,9 @@ README.md         # 说明文件
 - `total_qso`: QSO 联络总数
 - `total_qsl`: QSL 确认总数
 - `dxcc_confirmed`: 已确认的 DXCC 实体数量
-- `app_lotw_lastQsoRx`: 最后接收 QSO 的时间戳
-- `app_lotw_lastQsl`: 最后接收 QSL 的时间戳
+- `app_lotw_lastQsoRx`: 最后接收 QSO 的时间
+- `app_lotw_lastQsl`: 最后接收 QSL 的时间
+- `last_updated`:  最后更新 LoTW Stats 的时间
 - `dxcc_stats`: 各 DXCC 实体的详细统计
 
 #### 生成 Shields.io 徽章

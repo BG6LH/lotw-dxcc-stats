@@ -49,7 +49,7 @@ export default {
   qsoDataFileBackup: true, // true: backup ADIF file on update; false: no backup
   qsoBeginDate: "2018-01-01",
   queryTimeout: 60000,
-  timestampCheckInterval: 0,
+  queryInterval: 0,
 
   // Retry configuration for LoTW request timeout handling
   retryConfig: {
@@ -175,7 +175,6 @@ The generated JSON data contains complete DXCC contact statistics:
   "app_lotw_lastQsoRx": "2024-01-15 14:30:25",
   "app_lotw_lastQsl": "2024-01-15 12:15:30",
   "last_updated": "2024-01-15T14:30:25.123Z",
-  "last_updated_timestamp": 1705327825123,
   "dxcc_stats": {
     "1": { "qso": 45, "qsl": 23 },
     "6": { "qso": 12, "qsl": 8 },
@@ -189,8 +188,9 @@ The generated JSON data contains complete DXCC contact statistics:
 - `total_qso`: Total number of QSO contacts
 - `total_qsl`: Total number of QSL confirmations
 - `dxcc_confirmed`: Number of confirmed DXCC entities
-- `app_lotw_lastQsoRx`: Timestamp of last received QSO
-- `app_lotw_lastQsl`: Timestamp of last received QSL
+- `app_lotw_lastQsoRx`: Time of last received QSO
+- `app_lotw_lastQsl`: Time of last received QSL
+- `last_updated`:  Time of last updated LoTW Stats 
 - `dxcc_stats`: Detailed statistics for each DXCC entity
 
 #### Generate Shields.io Badges
